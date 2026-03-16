@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Royal Imperial Invitation</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Outfit:wght@300;400;600;800&family=Playfair+Display:ital,wght@0,700;0,900;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+
+    <style>
+        :root {
+            --gold: #d4af37;
+            --burgundy: #630d0d;
+            --paper: #fdfbf7;
+            --dark: #0f0f0f;
+            --leather-pattern: url('https://www.transparenttextures.com/patterns/leather.png');
+            --paper-pattern: url('https://www.transparenttextures.com/patterns/cream-paper.png');
+        }
+
+        body {
+            background: var(--dark);
+            font-family: 'Outfit', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0;
+            perspective: 3000px;
+            overflow: hidden;
+        }
+
+        /* BOOK MAIN CONTAINER */
+        .book-container {
+            position: relative;
+            width: 400px;
+            height: 580px;
+            transition: transform 1.2s cubic-bezier(0.645, 0.045, 0.355, 1);
+            transform-style: preserve-3d;
+        }
+
+        @media (max-width: 450px) {
+            .book-container { width: 330px; height: 500px; } /* Sedikit penyesuaian tinggi di mobile */
+        }
+
+        .book-container.is-open {
+            transform: translateX(45%);
+        }
+
+        /* SHARED PAGE STYLE */
+        .page {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0; left: 0;
+            transform-origin: left;
+            transform-style: preserve-3d;
+            transition: transform 1.2s cubic-bezier(0.645, 0.045, 0.355, 1);
+        }
+
+        .front, .back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            display: flex;
+            flex-direction: column;
+            box-shadow: inset 0 0 80px rgba(0,0,0,0.15);
+            box-sizing: border-box; /* Memastikan padding tidak menambah ukuran */
+        }
+
+        .back { transform: rotateY(180deg); }
+
+        /* SAMPUL STYLE (Burgundy Leather) */
+        .cover-style {
+            background: var(--burgundy);
+            background-image: var(--leather-pattern);
+            border: 3px solid var(--gold);
+            color: var(--gold);
+            padding: 20px; /* Padding seragam untuk cover */
+        }
+
+        /* PERBAIKAN KHUSUS COVER DEPAN (P1 Front) */
+        #p1 .front {
+            border-radius: 5px 20px 20px 5px;
+            justify-content: center; /* Memusatkan konten secara vertikal */
+            align-items: center;
+            text-align: center;
+        }
+
+        /* KERTAS ISI STYLE (Cream Paper) */
+        .paper-style {
+            background: var(--paper);
+            background-image: var(--paper-pattern);
+            padding: 30px 25px; /* Sedikit penyesuaian padding */
+            color: #2c2c2c;
+            border-radius: 0 15px 15px 0;
+        }
+
+        #p1 .back, #p2 .back, #p3 .back {
+            border-radius: 20px 5px 5px 20px;
+            justify-content: center;
+            align-items: center;
+            padding: 30px;
+        }
+
+        /* LOGIKA FLIP & Z-INDEX */
+        .flipped { transform: rotateY(-180deg); }
+        #p1 { z-index: 10; }
+        #p2 { z-index: 9; }
+        #p3 { z-index: 8; }
+        #p4 { z-index: 7; }
+
+        /* ORNAMENTAL ELEMENTS */
+        .ornament-line {
+            width: 80%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--gold), transparent);
+            margin: 15px auto; /* Mengurangi margin */
+        }
+
+        .title-text { font-family: 'Playfair Display', serif; font-size: 26px; color: var(--burgundy); font-weight: 700; text-align: center; line-height: 1.2; }
+        .cursive-gold { font-family: 'Dancing Script', cursive; font-size: 22px; color: var(--gold); }
+
+        .event-card {
+            background: rgba(212, 175, 55, 0.08);
+            border: 1px solid var(--gold);
+            border-radius: 12px;
+            padding: 12px; /* Mengurangi padding */
+            margin-bottom: 15px; /* Mengurangi margin */
+            transition: 0.3s;
+            display: flex;
+            align-items: center;
+        }
+
+        .event-card:hover { background: rgba(212, 175, 55, 0.15); transform: translateY(-3px); }
+
+        .icon-box { font-size: 18px; color: var(--burgundy); margin-right: 12px; }
+
+        /* BUTTONS */
+        .nav-btn {
+            margin-top: auto;
+            padding: 10px; /* Mengurangi padding */
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            font-weight: 700;
+            font-size: 11px; /* Mengurangi ukuran font */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: 0.3s;
+            text-transform: uppercase;
+            width: 100%;
+        }
+
+        .btn-gold { background: var(--gold); color: white; }
+        .btn-outline { background: transparent; border: 1.5px solid var(--gold); color: var(--gold); margin-top: 8px; }
+        .nav-btn:hover { letter-spacing: 1px; }
+
+        /* MAP PREVIEW BOX */
+        .map-preview {
+            width: 100%;
+            height: 80px; /* Mengurangi tinggi maps */
+            background: url('https://maps.googleapis.com/maps/api/staticmap?center=-6.2088,106.8456&zoom=13&size=400x150&sensor=false'); /* Placeholder */
+            background-size: cover;
+            border-radius: 8px;
+            margin-top: 10px;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid #ddd;
+        }
+        .map-overlay { position: absolute; inset: 0; background: rgba(0,0,0,0.3); display: flex; align-items: center; justify-content: center; color: white; font-size: 11px; }
+
+        /* PERBAIKAN SEAL IMG AGAR PAS TENGAH */
+        .royal-seal {
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            overflow: hidden;
+            /* margin: auto; Hapus ini karena flexbox induk sudah memusatkan */
+            border: 3px solid gold;
+            box-shadow: 0 0 25px rgba(212, 175, 55, 0.4);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-shrink: 0; /* Mencegah seal gepeng */
+            margin-bottom: 10px;
+        }
+
+        .seal-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .back-home {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 100;
+        }
+        .back-home a {
+            color: white;
+            text-decoration: none;
+            font-size: 14px;
+            opacity: 0.6;
+        }
+
+        /* Atur ulang margin h3 dan h1 di cover agar tidak memakan tempat */
+        #p1 .front h3 {
+            margin: 10px 0;
+            line-height: 1.4;
+        }
+        #p1 .front h1 {
+            margin: 5px 0;
+            line-height: 1.1;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="book-container" id="book">
+
+        <div id="p1" class="page">
+            <div class="front cover-style" onclick="step1()">
+                <div class="royal-seal">
+                    <img src="images/gambarundangan.jpg" alt="Foto" class="seal-img">
+                </div>
+
+                <div class="ornament-line"></div>
+
+                <h3 style="letter-spacing: 4px; font-size: 13px; font-weight: 400;">
+                    Happy Birthdays<br>
+                    <span style="font-weight: 700; font-size: 15px;">Titi Prabawati Ningtyas</span>
+                </h3>
+
+                <h1 style="font-family: 'Playfair Display', serif; font-size: 30px; font-weight: 700;">
+                    INVITATION DINNER
+                </h1>
+
+                <div class="ornament-line"></div>
+
+                <p style="font-size: 11px; opacity: 0.8; margin-top: 20px; animation: bounce 2s infinite;">
+                    TAP untuk Buka
+                </p>
+            </div>
+            <div class="back cover-style">
+                <div style="text-align: center; color: white;">
+                    <h4 class="cursive-gold">Selamat Datang Cantik</h4>
+                    <div class="ornament-line" style="width: 40px;"></div>
+                    <p style="font-size: 13px; font-weight: 300; line-height: 1.8; margin: 0;">Dihari yang bahagia ini Bagus Ellang Permadi mengundang untuk perayaan yang tak terlupakan.</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="p2" class="page">
+            <div class="front paper-style">
+                <p style="text-align: center; margin: 0;" class="cursive-gold">The Celebration of</p>
+                <h2 class="title-text" style="margin: 5px 0;">Perayaan Utama</h2>
+                <div class="ornament-line" style="width: 50px; margin: 10px auto;"></div>
+
+                <div class="event-card">
+                    <div class="icon-box"><i class="fas fa-calendar-day"></i></div>
+                    <div>
+                        <small style="text-transform: uppercase; display: block; font-weight: 800; font-size: 10px; color: #888;">Tanggal Acara</small>
+                        <span style="font-weight: 600; font-size: 13px;">Selasa, 17 Maret 2026</span>
+                    </div>
+                </div>
+
+                <div class="event-card">
+                    <div class="icon-box"><i class="fas fa-clock"></i></div>
+                    <div>
+                        <small style="text-transform: uppercase; display: block; font-weight: 800; font-size: 10px; color: #888;">Waktu</small>
+                        <span style="font-weight: 600; font-size: 13px;">17:00 - Selesai WIB</span>
+                    </div>
+                </div>
+
+                <div class="event-card" onclick="openMap()" style="cursor: pointer;">
+                    <div class="icon-box"><i class="fas fa-hotel"></i></div>
+                    <div>
+                        <small style="text-transform: uppercase; display: block; font-weight: 800; font-size: 10px; color: #888;">Lokasi</small>
+                        <span style="font-weight: 600; font-size: 13px;">Vermont Dining Restorant</span>
+                    </div>
+                </div>
+
+                <button class="nav-btn btn-gold" onclick="step2()">
+                    Sesi Dinner & Peta <i class="fas fa-chevron-right"></i>
+                </button>
+            </div>
+            <div class="back cover-style">
+                <div class="royal-seal">
+                    <img src="images/gambarundangan.jpg" alt="Foto" class="seal-img">
+                </div>
+            </div>
+        </div>
+
+        <div id="p3" class="page">
+            <div class="front paper-style">
+                <p style="text-align: center; margin: 0;" class="cursive-gold">Followed by</p>
+                <h2 class="title-text" style="margin: 5px 0;">Grand Dinner</h2>
+                <div class="ornament-line" style="width: 50px; margin: 10px auto;"></div>
+
+                <div class="event-card">
+                    <div class="icon-box"><i class="fas fa-utensils"></i></div>
+                    <div>
+                        <small style="text-transform: uppercase; display: block; font-weight: 800; font-size: 10px; color: #888;">Waktu Makan Malam</small>
+                        <span style="font-weight: 600; font-size: 13px;">19:30 - Selesai WIB</span>
+                    </div>
+                </div>
+
+                <div style="margin-top: 10px; text-align: center;">
+                    <small style="text-transform: uppercase; font-weight: 800; font-size: 10px; color: #888; letter-spacing: 1px;">Petunjuk Lokasi</small>
+                    <div class="map-preview" onclick="openMap()" style="cursor: pointer;">
+                        <div class="map-overlay">
+                            <i class="fas fa-directions" style="margin-right: 8px;"></i> LIHAT DI GOOGLE MAPS
+                        </div>
+                    </div>
+                    <p style="font-size: 11px; color: #666; margin-top: 5px; margin-bottom: 0;">Vermont Dining Restorant.</p>
+                </div>
+
+                <div style="margin-top: auto; width: 100%;">
+                    <button class="nav-btn btn-gold" onclick="step3()">
+                        Konfirmasi<i class="fas fa-chevron-right"></i>
+                    </button>
+                    <button class="nav-btn btn-outline" onclick="backStep1()">
+                        <i class="fas fa-chevron-left"></i> Kembali ke Awal
+                    </button>
+                </div>
+            </div>
+            <div class="back cover-style">
+                <div class="royal-seal">
+                    <img src="images/gambarundangan.jpg" alt="Foto" class="seal-img">
+                </div>
+            </div>
+        </div>
+
+        <div id="p4" class="page">
+            <div class="front paper-style">
+                <h2 class="title-text" style="margin: 0;">Konfirmasi</h2>
+                <p style="text-align: center; margin: 0;" class="cursive-gold">RSVP</p>
+                <div class="ornament-line" style="width: 50px; margin: 10px auto;"></div>
+
+                <div style="text-align: center; margin-bottom: 15px;">
+                    <p style="font-size: 13px; color: #555; margin: 0; line-height: 1.6;">Selamat Ulang tahun. Sampai Ketemu Sayang.</p>
+                </div>
+
+                <div style="background: #f1f1f1; padding: 12px; border-radius: 10px; border-left: 4px solid var(--burgundy); margin-bottom: 15px;">
+                    <small style="font-weight: 800; font-size: 10px; color: #888; text-transform: uppercase;">Dress Code</small>
+                    <p style="font-weight: 600; font-size: 13px; margin: 3px 0 0 0;">Formal & Elegant (Chocolate/cream)</p>
+                </div>
+
+                <div style="margin-top: auto; width: 100%;">
+                    <button onclick="confirmWA()" class="nav-btn btn-gold" style="background: #25D366; border: none; font-size: 13px;">
+                        <i class="fab fa-whatsapp"></i> KONFIRMASI WHATSAPP
+                    </button>
+                    <button class="nav-btn btn-outline" onclick="backStep2()">
+                        <i class="fas fa-chevron-left"></i> Kembali ke Peta
+                    </button>
+                </div>
+
+                <div style="text-align: center; margin-top: 15px; font-size: 20px;">
+                    ✨ 🌹 ✨
+                </div>
+            </div>
+            <div class="back cover-style"></div>
+        </div>
+
+        <div class="back-home">
+            <a href="#">← Back Home</a>
+        </div>
+
+    </div>
+
+    <script>
+        const book = document.getElementById('book');
+        const p1 = document.getElementById('p1');
+        const p2 = document.getElementById('p2');
+        const p3 = document.getElementById('p3');
+
+        // Membuka Sampul
+        function step1() {
+            book.classList.add('is-open');
+            p1.classList.add('flipped');
+            p1.style.zIndex = 1;
+        }
+
+        // Membuka Halaman Dinner
+        function step2() {
+            p2.classList.add('flipped');
+            p2.style.zIndex = 2;
+            p3.style.zIndex = 11; // Naikkan z-index halaman yang sedang aktif
+        }
+
+        // Membuka Halaman Akhir (RSVP)
+        function step3() {
+            p3.classList.add('flipped');
+            p3.style.zIndex = 3;
+        }
+
+        // Tombol Kembali 1 (Dari Peta ke Detail Utama)
+        function backStep1() {
+            p2.classList.remove('flipped');
+            p2.style.zIndex = 9;
+        }
+
+        // Tombol Kembali 2 (Dari RSVP ke Peta)
+        function backStep2() {
+            p3.classList.remove('flipped');
+            p3.style.zIndex = 8;
+        }
+
+        function confirmWA() {
+            const phone = "6285879718354";
+            const text = encodeURIComponent("Halo! Saya ingin konfirmasi kehadiran untuk Grand Dinner Titi Prabawati. Terima kasih! ✨");
+            window.open(`https://wa.me/${phone}?text=${text}`);
+        }
+
+        function openMap() {
+            // Contoh link ke Google Maps
+            window.open("https://maps.app.goo.gl/xyz", "_blank");
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Birthday Letter</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Playfair+Display:wght@400;600&family=Outfit:wght@300;400&display=swap" rel="stylesheet">
+
+<style>
+
+body{
+    margin:0;
+    font-family:'Outfit',sans-serif;
+    background:linear-gradient(135deg,#ffeef2,#fff6f6);
+    min-height:100vh;
+}
+
+/* floating hearts */
+
+#hearts{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+pointer-events:none;
+z-index:1;
+}
+
+.heart{
+position:absolute;
+color:#ff7a9c;
+animation:floatUp 10s linear infinite;
+opacity:0.6;
+}
+
+@keyframes floatUp{
+0%{transform:translateY(100vh) scale(.8);opacity:0;}
+10%{opacity:.8;}
+100%{transform:translateY(-20vh) scale(1.2);opacity:0;}
+}
+
+/* page container */
+
+.page{
+display:flex;
+justify-content:center;
+align-items:center;
+padding:60px 20px;
+position:relative;
+z-index:2;
+}
+
+/* letter paper */
+
+.letter-paper{
+
+background:#fffdf8;
+max-width:800px;
+width:100%;
+padding:60px 50px;
+border-radius:8px;
+
+box-shadow:
+0 10px 40px rgba(0,0,0,0.15);
+
+position:relative;
+
+animation:fadeIn 1.5s ease;
+
+}
+
+/* kertas effect */
+
+.letter-paper:before{
+
+content:"";
+position:absolute;
+top:0;
+left:0;
+right:0;
+bottom:0;
+
+background:
+repeating-linear-gradient(
+transparent,
+transparent 28px,
+#eaeaea 29px
+);
+
+pointer-events:none;
+
+}
+
+/* title */
+
+.title{
+text-align:center;
+margin-bottom:50px;
+}
+
+.title h1{
+font-family:'Dancing Script';
+font-size:56px;
+color:#d86c7a;
+margin:0;
+}
+
+.title p{
+letter-spacing:4px;
+font-size:14px;
+color:#888;
+margin-top:10px;
+}
+
+/* letter text */
+
+.letter-text{
+
+font-family:'Playfair Display',serif;
+font-size:18px;
+line-height:2;
+color:#444;
+position:relative;
+z-index:2;
+
+}
+
+.letter-text p{
+margin-bottom:24px;
+}
+
+/* signature */
+
+.signature{
+
+margin-top:50px;
+text-align:right;
+
+font-family:'Dancing Script';
+font-size:34px;
+color:#d86c7a;
+
+}
+
+/* fade animation */
+
+@keyframes fadeIn{
+
+from{
+opacity:0;
+transform:translateY(30px);
+}
+
+to{
+opacity:1;
+transform:translateY(0);
+}
+
+}
+
+/* mobile */
+
+@media(max-width:600px){
+
+.letter-paper{
+
+padding:40px 25px;
+
+}
+
+.title h1{
+font-size:42px;
+}
+
+.letter-text{
+font-size:16px;
+line-height:1.9;
+}
+
+.signature{
+font-size:28px;
+}
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div id="hearts"></div>
+
+<div class="page">
+
+<div class="letter-paper">
+
+<div class="title">
+
+<h1>Happy Birthday</h1>
+<p>For Someone Very Special</p>
+
+</div>
+
+<div class="letter-text">
+
+<p>
+Hari ini adalah hari yang sangat spesial, bukan hanya karena tanggalnya,
+tetapi karena di hari inilah seseorang yang sangat berarti dalam hidupku
+dilahirkan ke dunia.
+</p>
+
+<p>
+Selamat ulang tahun untuk kamu yang selalu berhasil membuat hariku
+menjadi lebih indah. Terima kasih karena sudah hadir di hidupku,
+memberikan begitu banyak kebahagiaan, tawa, dan juga kenangan yang
+tidak akan pernah aku lupakan.
+</p>
+
+<p>
+Aku tahu perjalanan hidup tidak selalu mudah. Ada hari dimana semuanya
+terasa berat, ada hari dimana kita merasa lelah dengan dunia. Tapi aku
+ingin kamu tahu satu hal: kamu tidak pernah sendirian.
+</p>
+
+<p>
+Aku akan selalu ada untukmu, mendengarkan ceritamu, mendukung mimpimu,
+dan berjalan bersamamu melewati setiap langkah kehidupan ini.
+</p>
+
+<p>
+Kamu adalah seseorang yang sangat luar biasa. Cara kamu tersenyum,
+cara kamu peduli kepada orang lain, dan cara kamu melihat dunia dengan
+hati yang tulus adalah hal-hal kecil yang membuatmu begitu istimewa.
+</p>
+
+<p>
+Aku berharap di usia yang baru ini, semua hal baik datang kepadamu.
+Semoga semua impianmu satu per satu menjadi kenyataan.
+</p>
+
+<p>
+Terima kasih sudah menjadi bagian dari hidupku,
+dan terima kasih sudah menjadi seseorang yang begitu berarti.
+</p>
+
+<p>
+Selamat ulang tahun.
+Semoga hari ini dipenuhi dengan kebahagiaan, tawa, dan cinta.
+</p>
+
+<p>
+Aku juga tahu sekarang kamu sedang berjuang menyelesaikan skripsimu.
+Mungkin ada hari dimana semuanya terasa sulit, revisi yang tidak ada
+habisnya, pikiran yang lelah, atau rasa ingin menyerah. Tapi aku ingin
+kamu tahu kalau semua usaha yang kamu lakukan sekarang pasti akan
+terbayar nanti.
+</p>
+
+<p>
+Jangan pernah patah semangat ya. Kamu sudah sejauh ini dan itu bukan
+hal yang mudah. Aku percaya kamu adalah orang yang kuat, sabar,
+dan mampu melewati semua proses ini sampai selesai.
+</p>
+
+<p>
+Kalau suatu saat kamu merasa lelah, istirahatlah sebentar, tarik napas,
+dan ingat kembali tujuanmu. Kamu tidak perlu terburu-buru,
+yang penting terus berjalan sedikit demi sedikit.
+</p>
+
+<p>
+Aku selalu bangga dengan semua usaha yang kamu lakukan.
+Semoga skripsimu dilancarkan, dimudahkan dalam setiap prosesnya,
+dan semoga kamu bisa segera menyelesaikannya dengan hasil terbaik.
+</p>
+
+<p>
+Aku akan selalu mendukungmu dari sini,
+menyemangatimu ketika kamu lelah,
+dan merayakan setiap pencapaian kecil yang kamu raih.
+Karena bagiku, setiap langkah yang kamu ambil itu berarti.
+</p>
+
+<div class="signature">
+With Love,<br>
+Bagus
+</div>
+
+<div class="back-home">
+<a href="index.html">← Back Home</a>
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<script>
+
+const hearts=document.getElementById("hearts")
+
+function createHeart(){
+
+const heart=document.createElement("div")
+
+heart.classList.add("heart")
+
+heart.innerHTML="❤"
+
+heart.style.left=Math.random()*100+"vw"
+
+heart.style.fontSize=(14+Math.random()*20)+"px"
+
+heart.style.animationDuration=(6+Math.random()*6)+"s"
+
+hearts.appendChild(heart)
+
+setTimeout(()=>{
+heart.remove()
+},12000)
+
+}
+
+setInterval(createHeart,600)
+
+</script>
+
+</body>
+</html>
